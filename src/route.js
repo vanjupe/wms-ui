@@ -1,9 +1,11 @@
 import VueRouter from 'vue-router'
 
 const Almacenes = () => import('./components/Almacenes/Almacenes')
+const Zonas = () => import('./components/Zonas/Zonas')
 
 const routes = [
-    { path: '/almacenes', component: Almacenes, name: 'Almacenes' }
+    { path: '/almacenes', component: Almacenes, name: 'Almacenes' },
+    { path: '/zonas', component: Zonas, name: 'Zonas' }
 ]
 
 // Función para cargar el route
