@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <bar/>
     <v-main>
       <router-view/>
     </v-main>
@@ -10,10 +11,11 @@
 <script>
 
 import Loader from "./components/General/Loader";
+import Bar from "./components/General/Bar";
 export default {
   name: "App",
 
-  components: {Loader},
+  components: {Bar, Loader},
 
   data: () => ({
     //
