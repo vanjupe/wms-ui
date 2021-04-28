@@ -17,6 +17,11 @@ let load = (vuePrincipal) => {
         methods: {
         }
     })
+
+    Vue.prototype.$menu = [
+        { texto: 'Almacenes', to: { name: 'Almacenes' } },
+        { texto: 'Zonas', to: { name: 'Zonas' } }
+    ]
 }
 
 export default { load }
