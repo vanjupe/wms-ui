@@ -6,7 +6,7 @@
             </v-col>
             <v-col cols="12" sm="12">
                 <h4>Paquete de ejemplo</h4>
-                <v-data-table  :headers="headers" :items="productos">
+                <v-data-table  :headers="headers" :items="productos" item-key="name">
                     <template v-slot:item.acciones="{  }">
                         <v-btn text color="primary" small @click="verUbicaciones"><v-icon>mdi-google-maps</v-icon></v-btn>
                     </template>
@@ -32,7 +32,7 @@
                     <v-text-field disabled value="S1M2"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
-                    <v-select label="Destino" :items="zonas"/>
+                    <v-select label="Destino" :items="ubicacionesPrueba"/>
                 </v-col>
                 <v-col cols="12" sm="12" md="4">
                     <v-text-field label="Cantidad"/>
@@ -96,10 +96,16 @@
                 mostrarCampos: false,
                 dialogCrearUbicacion: false,
                 zonas: [
+                    'M3',
+                    'M4',
+                    'M5'
+                ],
+                ubicacionesPrueba: [
                     'S1M2',
                     'S2M3',
                     'S4M3'
-                ]
+                ],
+                mostrarProductos: false
             }
         },
         methods:{
@@ -107,6 +113,7 @@
                 this.$loader = true
                 try {
                     this.productos = await Cliente.getProductosColegio(this.colegio, '2021-2022')
+                    this.mostrarProductos = true
                 } catch (e) {
                     this.$loader = false
                     console.log(e)
