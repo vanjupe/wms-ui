@@ -20,7 +20,8 @@ let load = (vuePrincipal) => {
 
     Vue.prototype.$menu = [
         { texto: 'Almacenes', to: { name: 'Almacenes' } },
-        { texto: 'Zonas', to: { name: 'Zonas' } }
+        { texto: 'Zonas', to: { name: 'Zonas' } },
+        { texto: 'Ubicaciones', to: { name: 'Ubicaciones' } }
     ]
 }
 
