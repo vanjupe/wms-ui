@@ -7,7 +7,7 @@
                     <v-text-field v-model="almacenAOperar.nombre" label="Nombre de almacén" autofocus/>
                 </v-col>
                 <v-col cols="12" sm="12">
-                    <v-text-field v-model="almacenAOperar.clave" label="Clave"/>
+                    <v-text-field v-model="almacenAOperar.clave" label="Clave" @keyup.enter="agregarAlmacen"/>
                 </v-col>
             </v-row>
             <template slot="actions">
@@ -47,14 +47,9 @@
             this.$loader = false
         },
         methods:{
-            async agregarAlmacen(){
-                this.$loader = true
-                try {
-                   this.almacenes = await AlmacenServices.postGuardarAlmacen(this.almacenAOperar)
-                } catch (e) {
-                    console.log(e)
-                }
-
+            agregarAlmacen(){
+                this.almacenes.push(this.almacenAOperar)
+                this.dialogAgregarAlmacen = false
             }
         }
     }
