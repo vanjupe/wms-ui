@@ -4,20 +4,21 @@
         <dialogo v-model="dialogAgregarZona" title="Agregar zona">
             <v-row>
                 <v-col cols="12" sm="12">
-                    <v-text-field label="Nombre" autofocus/>
+                    <v-text-field v-model="zonaAOperar.nombre" label="Nombre" autofocus/>
                 </v-col>
                 <v-col cols="12" sm="12">
-                    <v-text-field label="Número"/>
+                    <v-text-field v-model="zonaAOperar.numero" label="Número"/>
                 </v-col>
                 <v-col cols="12" sm="12">
-                    <v-select label="Selecciona el colegio"/>
+                    <v-select v-model="zonaAOperar.cliente"
+                              label="Selecciona el colegio" :items="colegios"/>
                 </v-col>
                 <v-col cols="12" sm="12">
-                    <v-select label="Selecciona el almacén"/>
+                    <v-select v-model="zonaAOperar.almacen" label="Selecciona el almacén" :items="almacenes"/>
                 </v-col>
             </v-row>
             <template slot="actions">
-                <v-btn text color="primary" @click="dialogAgregarAlmacen = false">Agregar</v-btn>
+                <v-btn text color="primary" @click="agregarZona">Agregar</v-btn>
             </template>
         </dialogo>
         <v-btn color="success"  dark fab fixed bottom right @click="dialogAgregarZona = true">
@@ -40,7 +41,18 @@
                     { text: 'Almacen', value: 'almacen' },
                     { text: 'Cliente', value: 'cliente' },
                 ],
-                zonas: []
+                zonas: [],
+                zonaAOperar: {},
+                colegios: [
+                    'Centro Escolar Espejo de los Lirios',
+                    'Instituto Thomas Jefferson Sta. Mónica',
+                    'Estefanía Castañeda Colegio',
+                    'Robert F. Kennedy Colegio (Atizapán)',
+                    'María Montessori Colegio C.T.M.'],
+                almacenes:[
+                    'Almacén interno',
+                    'Almacén externo'
+                ]
             }
         },
         async created () {
@@ -53,6 +65,12 @@
             }
             this.$loader = false
         },
+        methods:{
+            agregarZona(){
+                this.zonas.push(this.zonaAOperar)
+                this.dialogAgregarZona = false
+            }
+        }
     }
 </script>
 
