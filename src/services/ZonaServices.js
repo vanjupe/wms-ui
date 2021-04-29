@@ -5,5 +5,8 @@ let getZonas = () => {
     let url = AuthConst.BASE_URL_WMS + '/zonas'
     return http.get(url)
 }
-
-export default { getZonas }
+let postGuardarZona = (zona) => {
+    let url = AuthConst.BASE_URL_WMS + '/zonas'
+    return http.post(url, zona)
+}
+export default { getZonas , postGuardarZona}
