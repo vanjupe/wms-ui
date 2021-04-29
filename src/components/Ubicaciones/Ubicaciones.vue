@@ -4,7 +4,7 @@
             <v-col cols="12" sm="12">
                 <v-autocomplete v-model="colegio" :items="colegios" item-value="idCliente" item-text="nombre"  menu-props="auto" label="Cliente" @change="seleccionarColegio"/>
             </v-col>
-            <v-col cols="12" sm="12">
+            <v-col v-if="mostrarProductos" cols="12" sm="12">
                 <h4>Paquete de ejemplo</h4>
                 <v-data-table  :headers="headers" :items="productos" item-key="name">
                     <template v-slot:item.acciones="{  }">
