@@ -1,10 +1,8 @@
 <template>
-    <v-container pa-2 fluid class="fill-height">
+    <v-container pa-2 fluid class="fill-height" style="background: #f5f5fb;  display: grid;
+    justify-content: center;align-items: center;">
         <v-layout column style="display: block !important;">
-            <v-card class="pa-2 ma-4 mt-3 tarjeta elevation-0">
-                <v-card v-if="titulo" color="transparent" elevation="0" align="center" class="justify-center mb-15">
-                    <h1 class="primary--text">{{ titulo }}</h1>
-                </v-card>
+            <v-card class="pa-2 ma-4 tarjeta elevation-0">
                 <slot/>
             </v-card>
         </v-layout>
