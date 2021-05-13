@@ -23,7 +23,7 @@ let load = (vuePrincipal) => {
             $getIndex (array, atributo, elementoABuscar) {
                 return array.map(elemento => elemento[atributo]).indexOf(elementoABuscar[atributo])
             },
-            $showAlerta (ancho = '600', color = 'gray', icon = 'mdi-checkbox-blank-circle', mensaje = '', accion) {
+            $showAlerta (ancho = '600', color = 'gray', icon = 'mdi-checkbox-blank-circle', mensaje = '', accion = null) {
                 this.$alerta.model = false
                 this.$nextTick(() => {
                     this.$alerta.ancho = ancho
