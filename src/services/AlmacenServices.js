@@ -10,6 +10,11 @@ let postGuardarAlmacen = (almacen) => {
     return http.post(url, almacen)
 }
 
+let actualizarAlmacen = (almacen, callback) => {
+    let url = AuthConst.BASE_URL_WMS + '/almacenes'
+    return http.put(url, almacen, callback)
+}
 
-export default { getAlmacenes, postGuardarAlmacen }
+
+export default { getAlmacenes, postGuardarAlmacen, actualizarAlmacen }
 
