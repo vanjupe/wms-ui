@@ -16,9 +16,9 @@
 
             <v-card-actions>
                 <v-spacer/>
-                <template v-if="$alerta.accion">
+                <template v-if="$alerta.accion != null">
                     <v-btn text plain @click="$alerta.model = false">Cancelar</v-btn>
-                    <v-btn text plain color="primary"  @click="$alerta.accion()">Aceptar</v-btn>
+                    <v-btn text plain color="primary" @click="() => { $alerta.accion() }">Aceptar</v-btn>
                 </template>
                 <v-btn v-else text plain color="primary" @click="$alerta.model = false">Ok</v-btn>
             </v-card-actions>
