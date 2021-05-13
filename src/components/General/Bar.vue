@@ -1,12 +1,11 @@
 <template>
-    <v-app-bar app>
-        <v-app-bar-nav-icon v-if="$vuetify.breakpoint.smAndDown" @click.stop="$navegador = !$navegador"/>
-        <v-tabs v-else grow show-arrows>
-            <v-tab v-for="(opcion, index) in $menu" :key="index" active-class="menu-seleccionado" :to="opcion.to">
-                {{ opcion.texto }}
-            </v-tab>
-        </v-tabs>
+    <v-app-bar app clipped-left color="white" flat>
+            <img v-if="!$vuetify.breakpoint.smAndDown" :src="require('../../assets/vanjupe.png')"
+                 width="180"/>
         <v-spacer/>
+        <v-btn icon>
+            <v-icon>mdi-account-circle</v-icon>
+        </v-btn>
     </v-app-bar>
 </template>
 
