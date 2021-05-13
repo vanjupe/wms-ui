@@ -99,7 +99,7 @@
                 this.dialogOperarUbicacion = true
             },
             abrirEliminar(ubicacion){
-                this.$showAlerta('600', 'red' , 'mdi-delete-alert', '¿Desea eliminar la ubicación ' + ubicacion.nombre + '?', this.eliminarUbicacion(ubicacion) )
+                this.$showAlerta('600', 'red' , 'mdi-delete-alert', '¿Desea eliminar la ubicación ' + ubicacion.nombre + '?', () => this.eliminarUbicacion(ubicacion) )
             },
             async eliminarUbicacion(ubicacion) {
                 this.$loader = true
