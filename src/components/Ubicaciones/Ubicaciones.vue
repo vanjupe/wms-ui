@@ -1,79 +1,43 @@
 <template>
-    <wrapper titulo="Ubicaciones">
-        <v-row>
-            <v-col cols="12" sm="12">
-                <v-autocomplete v-model="colegio" :items="colegios" item-value="idCliente" item-text="nombre"  menu-props="auto" label="Cliente" @change="seleccionarColegio"/>
-            </v-col>
-            <v-col v-if="mostrarProductos" cols="12" sm="12">
-                <h4>Paquete de ejemplo</h4>
-                <v-data-table  :headers="headers" :items="productos" item-key="name">
-                    <template v-slot:item.acciones="{  }">
-                        <v-btn text color="primary" small @click="verUbicaciones"><v-icon>mdi-google-maps</v-icon></v-btn>
-                    </template>
-                </v-data-table>
-            </v-col>
-        </v-row>
-        <dialogo v-model="dialogUbicacionesProducto" title="Ubicaciones de producto">
+    <wrapper>
+        <v-data-table  :headers="headers" :items="ubicaciones">
+            <template v-slot:item.acciones="{ item }">
+                <v-btn icon class="primary--text" @click="abrirDialogUbicacion(item)"><v-icon small>mdi-pencil</v-icon></v-btn>
+                <v-btn icon class="red--text" @click="abrirEliminar(item)"><v-icon small>mdi-delete</v-icon></v-btn>
+            </template>
+        </v-data-table>
+        <dialogo v-model="dialogOperarUbicacion" :title="ubicacionAOperar.id ? 'Editar Ubicación' : 'Agregar Ubicación'">
             <v-row>
                 <v-col cols="12" sm="12">
-                    <v-list>
-                        <v-list-item v-for="(ubicacion, index) in ubicaciones" :key="index">
-                            <v-list-item-content @click="agregarUbicación()">
-                                <v-list-item-title>{{ ubicacion.tipo + ubicacion.numero + ubicacion.zona.nombre + ubicacion.zona.numero }}</v-list-item-title>
-                            </v-list-item-content>
-                        </v-list-item>
-                    </v-list>
+                    <v-text-field v-model="ubicacionAOperar.nombre" label="Nombre" autofocus/>
                 </v-col>
-            </v-row>
-        </dialogo>
-        <dialogo v-model="dialogAsignarUbicacion" title="Asignar ubicación" ancho="500">
-            <v-row>
-                <v-col cols="12" sm="12" md="4" style=" justify-content: center;align-items: center;">
-                    <v-text-field disabled value="S1M2"/>
-                </v-col>
-                <v-col cols="12" sm="12" md="4">
-                    <v-select label="Destino" :items="ubicacionesPrueba"/>
-                </v-col>
-                <v-col cols="12" sm="12" md="4">
-                    <v-text-field label="Cantidad"/>
-                </v-col>
-                <v-col cols="12" sm="12" md="12" align="center">
-                    <v-btn text color="primary" @click="dialogCrearUbicacion = true">Nueva ubicación</v-btn>
+                <v-col cols="12" sm="12">
+                    <v-select v-model="ubicacionAOperar.idZona" label="Selecciona zona" :items="zonas"
+                              item-value="id" item-text="nombre"/>
                 </v-col>
             </v-row>
             <template slot="actions">
-                <v-btn text color="primary" @click="dialogAsignarUbicacion = false">Guardar</v-btn>
+                <v-btn text color="primary" @click="ubicacionAOperar.id ? editarUbicacion() : agregarUbicacion()">Guardar</v-btn>
             </template>
         </dialogo>
-        <dialogo v-model="dialogCrearUbicacion" title="Crear ubicación" ancho="500">
-            <v-row>
-                    <v-col cols="12" sm="12" md="4">
-                        <v-select label="Seleccione zona" :items="zonas"/>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="4">
-                        <v-text-field label="Tipo"/>
-                    </v-col>
-                    <v-col cols="12" sm="12" md="4">
-                        <v-text-field label="Número" type="number"/>
-                    </v-col>
-            </v-row>
-            <template slot="actions">
-                <v-btn text color="primary" @click="dialogCrearUbicacion = false">Guardar</v-btn>
-            </template>
-        </dialogo>
+        <v-btn color="success"  dark fab fixed bottom right @click="abrirDialogUbicacion">
+            <v-icon>mdi-plus</v-icon>
+        </v-btn>
     </wrapper>
 </template>
 
 <script>
     import Cliente from "../../services/Cliente";
     import UbicacionServices from "../../services/UbicacionServices";
+    import ZonaServices from "../../services/ZonaServices";
 
     export default {
         name: "Ubicaciones",
         async created () {
             this.$loader = true
             try {
-                this.colegios = await Cliente.getClientesActivos()
+                this.ubicaciones = await UbicacionServices.getUbicaciones()
+                this.zonas = await ZonaServices.getZonas()
             } catch (e) {
                 this.$loader = false
                 console.log(e)
@@ -82,30 +46,16 @@
         },
         data(){
             return{
-                colegio: null,
-                colegios: [],
-                productos: [],
                 headers: [
-                    { text: 'Código', value: 'libro.isbn13' },
-                    { text: 'Título', value: 'libro.titulo' },
-                    { text: 'Ubicaciones', align: 'left', value: 'acciones' }
+                    { text: 'Nombre', value: 'nombre' },
+                    { text: 'Zona', value: 'zona.nombre' },
+                    { text: '', value: 'acciones' }
                 ],
-                dialogUbicacionesProducto: false,
                 ubicaciones: [],
-                dialogAsignarUbicacion: false,
-                mostrarCampos: false,
-                dialogCrearUbicacion: false,
-                zonas: [
-                    'M3',
-                    'M4',
-                    'M5'
-                ],
-                ubicacionesPrueba: [
-                    'S1M2',
-                    'S2M3',
-                    'S4M3'
-                ],
-                mostrarProductos: false
+                dialogOperarUbicacion: false,
+                ubicacionAOperar: {},
+                zonas: []
+
             }
         },
         methods:{
@@ -120,20 +70,51 @@
                 }
                 this.$loader = false
             },
-           async verUbicaciones () {
-               this.$loader = true
-               try {
-                    this.ubicaciones = await UbicacionServices.getUbicaciones()
-                   this.dialogUbicacionesProducto = true
+            async editarUbicacion() {
+                this.$loader = true
+                try {
+                    let ubicacionEditada = await UbicacionServices.actualizarUbicacion(this.ubicacionAOperar)
+                    let index = this.$getIndex(this.ubicaciones, 'id', ubicacionEditada)
+                    this.$set(this.ubicaciones, index, ubicacionEditada)
                 } catch (e) {
                     console.log(e)
                 }
-               this.$loader = false
-           },
-            agregarUbicación(){
-                this.dialogUbicacionesProducto = false
-                this.dialogAsignarUbicacion = true
-            }
+                this.$loader = false
+                this.dialogOperarUbicacion = false
+            },
+            async agregarUbicacion() {
+                this.$loader = true
+                try {
+                    let ubicacionAgregada = await UbicacionServices.postGuardarUbicacion(this.ubicacionAOperar)
+                    this.ubicaciones.push(ubicacionAgregada)
+                } catch (e) {
+                    console.log(e)
+                }
+                this.$loader = false
+                this.dialogOperarUbicacion = false
+            },
+            abrirDialogUbicacion (ubicacion) {
+                this.ubicacionAOperar = JSON.parse(JSON.stringify(ubicacion))
+                if (this.$refs.form) this.$refs.form.resetValidation()
+                this.dialogOperarUbicacion = true
+            },
+            abrirEliminar(ubicacion){
+                this.$showAlerta('600', 'red' , 'mdi-delete-alert', '¿Desea eliminar la ubicación ' + ubicacion.nombre + '?', this.eliminarUbicacion(ubicacion) )
+            },
+            async eliminarUbicacion(ubicacion) {
+                this.$loader = true
+                try {
+                    await UbicacionServices.eliminarUbicacion(ubicacion.id)
+                    let index = this.$getIndex(this.ubicaciones, 'id', ubicacion)
+                    this.ubicaciones.splice(index, 1)
+                    this.$showAlerta('600', 'success' , 'mdi-check-circle', 'Se ha eliminado la ubicación')
+                } catch (e) {
+                    this.$showAlerta('600', 'red' , 'mdi-alert-circle', 'No fue posible eliminar la ubicación')
+                    console.log(e)
+                }
+                this.$loader = false
+                this.dialogOperarUbicacion = false
+            },
         }
     }
 </script>
