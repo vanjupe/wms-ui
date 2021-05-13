@@ -11,7 +11,7 @@
                     <v-text-field v-model="zonaAOperar.nombre" label="Nombre" autofocus/>
                 </v-col>
                 <v-col cols="12" sm="12">
-                    <v-select v-model="zonaAOperar.idCliente" label="Selecciona el cliente" :items="clientes"
+                    <v-select v-model="zonaAOperar.idCliente" disabled label="Selecciona el cliente" :items="clientes"
                               item-value="id" item-text="nombre"/>
                 </v-col>
                 <v-col cols="12" sm="12">
