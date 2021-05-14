@@ -74,8 +74,9 @@
                 this.$loader = true
                 try {
                     let ubicacionEditada = await UbicacionServices.actualizarUbicacion(this.ubicacionAOperar)
-                    let index = this.$getIndex(this.ubicaciones, 'id', ubicacionEditada)
-                    this.$set(this.ubicaciones, index, ubicacionEditada)
+                    let ubicacion = await UbicacionServices.getUbicacion(ubicacionEditada.id)
+                    let index = this.$getIndex(this.ubicaciones, 'id', ubicacion)
+                    this.$set(this.ubicaciones, index, ubicacion)
                 } catch (e) {
                     console.log(e)
                 }

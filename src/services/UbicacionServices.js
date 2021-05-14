@@ -6,6 +6,11 @@ let getUbicaciones = () => {
     return http.get(url)
 }
 
+let getUbicacion = (id) => {
+    let url = AuthConst.BASE_URL_WMS + '/ubicaciones/'+ id
+    return http.get(url)
+}
+
 let postGuardarUbicacion = (ubicacion) => {
     let url = AuthConst.BASE_URL_WMS + '/ubicaciones'
     return http.post(url, ubicacion)
@@ -21,4 +26,4 @@ let eliminarUbicacion = (idUbicacion, callback) => {
     return http.remove(url, callback)
 }
 
-export default { getUbicaciones, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion }
+export default { getUbicaciones, getUbicacion, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion }
