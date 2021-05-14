@@ -14,4 +14,9 @@ let actualizarZona = (zona, callback) => {
     return http.put(url, zona, callback)
 }
 
-export default { getZonas , postGuardarZona, actualizarZona }
+let getZona = (id) => {
+    let url = AuthConst.BASE_URL_WMS + '/zonas/'+ id
+    return http.get(url)
+}
+
+export default { getZonas , postGuardarZona, actualizarZona, getZona }

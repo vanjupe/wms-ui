@@ -87,8 +87,9 @@
                 this.$loader = true
                 try {
                     let zonaEditada = await ZonaServices.actualizarZona(this.zonaAOperar)
-                    let index = this.$getIndex(this.zonas, 'id', zonaEditada)
-                    this.$set(this.zonas, index, zonaEditada)
+                    let zona = await ZonaServices.getZona(zonaEditada.id)
+                    let index = this.$getIndex(this.zonas, 'id', zona)
+                    this.$set(this.zonas, index, zona)
                 } catch (e) {
                     console.log(e)
                 }
