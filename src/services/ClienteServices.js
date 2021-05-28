@@ -6,4 +6,9 @@ let getClientes = () => {
     return http.get(url)
 }
 
-export default { getClientes }
+let getPaquetesPorClienteCiclo = (idCliente, ciclo) => {
+    let url = AuthConst.BASE_URL_VIS + '/rest/paquetes/cliente/' + idCliente + '/ciclo/' + ciclo
+    return http.get(url)
+}
+
+export default { getClientes, getPaquetesPorClienteCiclo }
