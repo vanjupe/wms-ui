@@ -41,7 +41,7 @@ let load = (vuePrincipal) => {
         { texto: 'Almacenes', to: { name: 'Almacenes' }, icon: 'mdi-factory' },
         { texto: 'Zonas', to: { name: 'Zonas' }, icon: 'mdi-map-clock' },
         { texto: 'Ubicaciones', to: { name: 'Ubicaciones' }, icon: 'mdi-map-marker' },
-        { texto: 'Movimientos', to: { name: 'PaquetesColegio' }, icon: 'mdi-map-marker' }
+        { texto: 'Movimientos', to: { name: 'PaquetesCliente' }, icon: 'mdi-map-marker' }
     ]
 }
 

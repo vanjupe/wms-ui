@@ -3,13 +3,13 @@ import VueRouter from 'vue-router'
 const Almacenes = () => import('./components/Almacenes/Almacenes')
 const Zonas = () => import('./components/Zonas/Zonas')
 const Ubicaciones = () => import('./components/Ubicaciones/Ubicaciones')
-const PaquetesColegio = () => import('./components/Movimientos/PaquetesColegio')
+const PaquetesCliente = () => import('./components/Movimientos/PaquetesCliente')
 
 const routes = [
     { path: '/almacenes', component: Almacenes, name: 'Almacenes' },
     { path: '/zonas', component: Zonas, name: 'Zonas' },
     { path: '/ubicaciones', component: Ubicaciones, name: 'Ubicaciones' },
-    { path: '/movimientos', component: PaquetesColegio, name: 'PaquetesColegio' }
+    { path: '/movimientos', component: PaquetesCliente, name: 'PaquetesCliente' }
 ]
 
 // Función para cargar el route
