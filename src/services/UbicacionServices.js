@@ -26,4 +26,14 @@ let eliminarUbicacion = (idUbicacion, callback) => {
     return http.remove(url, callback)
 }
 
-export default { getUbicaciones, getUbicacion, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion }
+let getUbicacionesPorCliente = (idCliente) => {
+    let url = AuthConst.BASE_URL_WMS + '/ubicaciones/cliente/'+ idCliente
+    return http.get(url)
+}
+
+let getUbicacionesDeProducto = (idProducto) => {
+    let url = AuthConst.BASE_URL_WMS + '/ubicaciones/producto/sku/' + idProducto + '/existencias'
+    return http.get(url)
+}
+
+export default { getUbicaciones, getUbicacion, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion, getUbicacionesPorCliente, getUbicacionesDeProducto }
