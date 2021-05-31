@@ -8,7 +8,7 @@
     </v-row>
     <v-row>
         <v-col cols="12" align="center" class="mb-4">
-            <h3>Existencia: {{ this.ubicacionInventario.existencia }}</h3>
+            <h3>Inventario: {{ this.ubicacionInventario.existencia }}</h3>
         </v-col>
         <v-col cols="12">
             <v-data-table :headers="headers" :items="ubicacionesFisicas"/>
@@ -113,6 +113,7 @@
                             idProducto: this.producto.id
                         }
                     }
+                    console.log(this.movimiento)
                     await MovimientoServices.postCrearMovimiento(this.movimiento)
                 }catch (e) {
                     console.log(e)
