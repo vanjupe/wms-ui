@@ -11,8 +11,8 @@
         </v-col>
         <v-col cols="12">
           <v-data-table :headers="headers" :items="paquete.detalles">
-            <template v-slot:item.acciones="{ }">
-              <v-btn icon class="primary--text"><v-icon small>mdi-google-maps</v-icon></v-btn>
+            <template v-slot:item.acciones="{ item }">
+              <v-btn icon class="primary--text" @click="abrirUbicacionProducto(item)"><v-icon small>mdi-google-maps</v-icon></v-btn>
             </template>
           </v-data-table>
         </v-col>
@@ -86,12 +86,16 @@
         this.$loader = true
         try {
           this.paquetes = await ClienteServices.getPaquetesPorClienteCiclo(this.clienteSeleccionado.id, this.ciclo)
+          console.log(this.paquetes)
         } catch (e) {
           console.log(e)
           // snackbar de no encontró paquetes
         }
         this.dialogBuscarCliente = false
         this.$loader = false
+      },
+      abrirUbicacionProducto(idProducto){
+        this.$router.push({name: 'UbicacionesPorProducto', params: { idProducto: idProducto.libro.idProducto, idCliente: this.clienteSeleccionado.id }});
       }
     }
   }
