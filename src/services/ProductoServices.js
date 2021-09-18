@@ -6,4 +6,9 @@ let getProducto = (idProducto) => {
     return http.get(url)
 }
 
-export default { getProducto }
+let getProductosByCliente = (idCliente) => {
+    let url = AuthConst.BASE_URL_WMS + '/productos/cliente/' + idCliente
+    return http.get(url)
+}
+
+export default { getProducto, getProductosByCliente }
