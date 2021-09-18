@@ -2,7 +2,7 @@
   <wrapper>
     <v-row>
       <v-col cols="12" sm="12" style="display: grid; justify-content: center">
-        <v-select label="Seleccionar cliente"/>
+        <v-autocomplete :items="clientes" item-value="idCliente" item-text="nombre" label="Cliente" />
       </v-col>
       <v-col cols="12">
         <v-data-table  :headers="headers" :items="desserts">
@@ -15,7 +15,7 @@
     <dialogo v-model="dialogoMovimientos" title="Movimientos">
       <v-tabs>
         <v-tab>
-          
+
         </v-tab>
         <v-tab-item>
 
@@ -35,10 +35,13 @@
 </template>
 
 <script>
+    import Cliente from "../../services/Cliente";
+
     export default {
         name: "Existencias",
         data () {
             return{
+              clientes: [],
                 headers: [
                     { text: 'SKU', value: 'sku' },
                     { text: 'Código', value: 'codigo' },
@@ -57,10 +60,24 @@
                         movimientos: ''
                     }
                     ],
-                dialogoMovimientos: true
+                dialogoMovimientos: false
             }
         },
+      async created () {
+        this.$loader = true
+        try {
+          this.clientes = await Cliente.getClientesActivos()
+          console.log(this.clientes)
+        } catch (e) {
+          this.$loader = false
+          console.log(e)
+        }
+        this.$loader = false
+      },
         methods: {
+          async getProductosPorCliente (idCliente) {
+            console.log(idCliente)
+          },
             abrirDialogMovimiento () {
                 this.dialogoMovimientos = true
             }
