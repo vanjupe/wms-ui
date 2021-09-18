@@ -45,7 +45,7 @@
                     { text: 'Código', value: 'codigoDeBarras' },
                     { text: 'Descripción', value: 'descripcion' },
                     { text: 'Editorial', value: 'editorial' },
-                    { text: 'Existencias', value: 'existencia' },
+                    { text: 'Existencia', value: 'existencia' },
                     { text: 'Movimientos', value: 'movimientos' }
                     ],
               movimientosParaMostrar: [],
@@ -75,7 +75,8 @@
             if (!producto.movimientos) {
               this.$loader = true
               try {
-                producto.movimientos = await MovimientoServices.getMovimientoByIdProducto(producto.id)
+                this.$set(producto, 'movimientos', await MovimientoServices.getMovimientoByIdProducto(producto.id))
+                this.$set(producto, 'existencia', ProductoServices.getExistenciaDisponible(producto.movimientos))
               } catch (e) {
                 producto.movimientos = []
               }
