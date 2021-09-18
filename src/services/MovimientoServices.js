@@ -6,4 +6,9 @@ let postCrearMovimiento = (movimiento) => {
     return http.post(url, movimiento)
 }
 
-export default { postCrearMovimiento }
+let getMovimientoByIdProducto = (idProducto) => {
+    let url = AuthConst.BASE_URL_WMS + '/movimientos/producto/' + idProducto
+    return http.get(url)
+}
+
+export default { postCrearMovimiento, getMovimientoByIdProducto }
