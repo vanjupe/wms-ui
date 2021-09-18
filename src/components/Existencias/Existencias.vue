@@ -13,7 +13,7 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <dialogo v-model="dialogoMovimientos" title="Movimientos">
+    <dialogo v-model="dialogoMovimientos" title="Movimientos" ancho="700">
       <v-tabs>
         <v-tab>
 
@@ -22,15 +22,7 @@
 
         </v-tab-item>
       </v-tabs>
-      <v-card rounded>
-        <v-card-text>
-          <h4>Movimiento </h4>
-          <h4 class="caption font-weight-bold">Cantidad:</h4>
-          <v-card-text>
-            fhfhdh
-          </v-card-text>
-        </v-card-text>
-      </v-card>
+      <movimiento-producto v-for="(movimiento, index) in movimientosParaMostrar" :key="index" :movimiento="movimiento" />
     </dialogo>
   </wrapper>
 </template>
@@ -38,10 +30,13 @@
 <script>
     import Cliente from "../../services/Cliente";
     import ProductoServices from "../../services/ProductoServices";
+    import MovimientoServices from "../../services/MovimientoServices";
+    import MovimientoProducto from "../Movimientos/MovimientoProducto";
 
     export default {
         name: "Existencias",
-        data () {
+      components: {MovimientoProducto},
+      data () {
             return{
               clientes: [],
               productosCliente: [],
@@ -49,10 +44,11 @@
                     { text: 'SKU', value: 'sku' },
                     { text: 'Código', value: 'codigoDeBarras' },
                     { text: 'Descripción', value: 'descripcion' },
-                    { text: 'Manufactura', value: 'manufactura' },
+                    { text: 'Editorial', value: 'editorial' },
                     { text: 'Existencias', value: 'existencia' },
                     { text: 'Movimientos', value: 'movimientos' }
                     ],
+              movimientosParaMostrar: [],
                 dialogoMovimientos: false
             }
         },
@@ -75,9 +71,20 @@
             }
             this.$loader = false
           },
-            abrirDialogMovimiento () {
-                this.dialogoMovimientos = true
+          async abrirDialogMovimiento (producto) {
+            if (!producto.movimientos) {
+              this.$loader = true
+              try {
+                producto.movimientos = await MovimientoServices.getMovimientoByIdProducto(producto.id)
+              } catch (e) {
+                producto.movimientos = []
+              }
+              this.$loader = false
             }
+
+            this.movimientosParaMostrar = producto.movimientos
+            this.dialogoMovimientos = true
+          }
         }
     }
 </script>
