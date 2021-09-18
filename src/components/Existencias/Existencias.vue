@@ -2,10 +2,11 @@
   <wrapper>
     <v-row>
       <v-col cols="12" sm="12" style="display: grid; justify-content: center">
-        <v-autocomplete :items="clientes" item-value="idCliente" item-text="nombre" label="Cliente" />
+        <v-autocomplete :items="clientes" item-value="idCliente" item-text="nombre" label="Cliente"
+                        @change="getProductosPorCliente" />
       </v-col>
-      <v-col cols="12">
-        <v-data-table  :headers="headers" :items="desserts">
+      <v-col v-if="productosCliente.length > 0" cols="12">
+        <v-data-table  :headers="headers" :items="productosCliente">
           <template v-slot:item.movimientos="{ item }">
             <v-btn icon class="primary--text" @click="abrirDialogMovimiento(item)"><v-icon small>mdi-folder-open</v-icon></v-btn>
           </template>
@@ -36,29 +37,21 @@
 
 <script>
     import Cliente from "../../services/Cliente";
+    import ProductoServices from "../../services/ProductoServices";
 
     export default {
         name: "Existencias",
         data () {
             return{
               clientes: [],
+              productosCliente: [],
                 headers: [
                     { text: 'SKU', value: 'sku' },
-                    { text: 'Código', value: 'codigo' },
+                    { text: 'Código', value: 'codigoDeBarras' },
                     { text: 'Descripción', value: 'descripcion' },
                     { text: 'Manufactura', value: 'manufactura' },
-                    { text: 'Existencias', value: 'existencias' },
+                    { text: 'Existencias', value: 'existencia' },
                     { text: 'Movimientos', value: 'movimientos' }
-                    ],
-                desserts: [
-                    {
-                        sku: 8837744,
-                        codigo: 131318374,
-                        descripcion: 'Descripción de ejemplo',
-                        manufactura: 'Castillo',
-                        existencias: 20,
-                        movimientos: ''
-                    }
                     ],
                 dialogoMovimientos: false
             }
@@ -67,16 +60,20 @@
         this.$loader = true
         try {
           this.clientes = await Cliente.getClientesActivos()
-          console.log(this.clientes)
         } catch (e) {
-          this.$loader = false
           console.log(e)
         }
         this.$loader = false
       },
         methods: {
           async getProductosPorCliente (idCliente) {
-            console.log(idCliente)
+            this.$loader = true
+            try {
+              this.productosCliente = await ProductoServices.getProductosByCliente(idCliente)
+            } catch (e) {
+              console.log(e)
+            }
+            this.$loader = false
           },
             abrirDialogMovimiento () {
                 this.dialogoMovimientos = true
