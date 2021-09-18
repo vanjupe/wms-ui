@@ -14,10 +14,10 @@ const getMovimientoByIdProducto = (idProducto) => {
 const getTipoMovimiento = (value) => {
     const tipos = {
         'REMISION': 'Remisión',
-        'VENTA-INTERNET': 'Venta Internet',
-        'DEVOLUCION-INVENTARIO': 'Devolución Inventario',
-        'DEVOLUCION-PROVEEDORES': 'Devolución Proveedores',
-        'DEVOLUCION-SURTIDO': 'Devolución Surtido',
+        'VENTA-INTERNET': 'Venta internet',
+        'DEVOLUCION-INVENTARIO': 'Devolución a inventario',
+        'DEVOLUCION-PROVEEDORES': 'Devolución a proveedores',
+        'DEVOLUCION-SURTIDO': 'Devolución a surtido',
         'MERMA': 'Merma'
     }
 
