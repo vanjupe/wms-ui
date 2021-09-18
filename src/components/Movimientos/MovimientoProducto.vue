@@ -10,14 +10,7 @@
     <v-card-text>
       <v-row dense align-content="center" justify="space-between">
         <v-col cols="5">
-          <v-card>
-            <v-card-title>Origen</v-card-title>
-            <v-card-subtitle>
-              <strong>{{ movimiento.origen.ubicacion.nombre }}</strong>
-              <br />
-              <small>{{ movimiento.origen.ubicacion.zona.nombre }}</small>
-            </v-card-subtitle>
-          </v-card>
+          <ubicacion-movimiento titulo="Origen" :ubicacion="movimiento.origen.ubicacion" />
         </v-col>
 
         <v-col cols="2" align-self="center">
@@ -28,14 +21,7 @@
         </v-col>
 
         <v-col cols="5">
-          <v-card>
-            <v-card-title>Destino</v-card-title>
-            <v-card-subtitle>
-              <strong>{{ movimiento.destino.ubicacion.nombre }}</strong>
-              <br />
-              <small>{{ movimiento.destino.ubicacion.zona.nombre }}</small>
-            </v-card-subtitle>
-          </v-card>
+          <ubicacion-movimiento titulo="Destino" :ubicacion="movimiento.destino.ubicacion" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -43,8 +29,10 @@
 </template>
 
 <script>
+  import UbicacionMovimiento from "../Ubicaciones/UbicacionMovimiento";
   export default {
     name: "MovimientoProducto",
+    components: {UbicacionMovimiento},
     props: { movimiento: { type: Object, required: true } },
   }
 </script>
