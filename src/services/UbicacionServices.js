@@ -36,4 +36,9 @@ let getUbicacionesDeProducto = (idProducto) => {
     return http.get(url)
 }
 
-export default { getUbicaciones, getUbicacion, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion, getUbicacionesPorCliente, getUbicacionesDeProducto }
+let esUbicacionRecepcion = (ubicacion) => {
+    return  ubicacion.nombre === 'Recepción' && ubicacion.zona.nombre === 'Proveedores'
+}
+
+export default { getUbicaciones, getUbicacion, postGuardarUbicacion, actualizarUbicacion, eliminarUbicacion,
+    getUbicacionesPorCliente, getUbicacionesDeProducto, esUbicacionRecepcion }
